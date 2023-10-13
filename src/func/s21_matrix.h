@@ -26,11 +26,11 @@ int s21_sub_matrix(matrix_t *A, matrix_t *B, matrix_t *result);     // done
 int s21_mult_number(matrix_t *A, double number, matrix_t *result);  // done
 int s21_mult_matrix(matrix_t *A, matrix_t *B, matrix_t *result);    // done
 int s21_transpose(matrix_t *A, matrix_t *result);                   // done
-int s21_calc_complements(matrix_t *A, matrix_t *result);
-int s21_determinant(matrix_t *A, double *result);
-int s21_inverse_matrix(matrix_t *A, matrix_t *result);
+int s21_calc_complements(matrix_t *A, matrix_t *result);            // done
+int s21_determinant(matrix_t *A, double *result);                   // done
+int s21_inverse_matrix(matrix_t *A, matrix_t *result);              // done
 
-// helper functions
 int s21_check_matrix(matrix_t A);
 void s21_remove_row_column(matrix_t *A, int row, int col, matrix_t *minor);
+double s21_determinant_recursive(matrix_t *A);
 #endif
