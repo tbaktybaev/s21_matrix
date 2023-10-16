@@ -9,7 +9,7 @@ int s21_calc_complements(matrix_t *A, matrix_t *result) {
   result->columns = 0;
 
   if (A->columns != A->rows) response = CALCULATION_ERROR;
-  s21_create_matrix(A->rows, A->columns, &result);
+  s21_create_matrix(A->rows, A->columns, result);
   if (A->rows == 1)
     result->matrix[0][0] = 1;
   else
