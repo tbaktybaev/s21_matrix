@@ -9,6 +9,8 @@ GCOV_OBJ_DIR = $(GCOV_DIR)/gcov_objects
 GCOV_OBJ = $(addprefix $(GCOV_OBJ_DIR)/, $(notdir $(FUNC:.c=.o)))
 
 UNAME_S = $(shell uname -s)
+ARCH = $(shell uname -s)
+
 ifeq ($(UNAME_S),Darwin) 
 	TEST_LIBS = -lcheck -lm 
 endif
@@ -16,7 +18,14 @@ ifeq ($(UNAME_S),Linux)
 	TEST_LIBS = -lcheck -lm -lsubunit
 endif
 
-CC = gcc
+ifeq ($(ARCH),arm64)
+	CC = gcc -arch arm64
+endif
+
+ifeq ($(ARCH),x86_64)
+	CC = gcc -arch x86_64
+endif
+
 CFLAGS = -Wall -Wextra -Werror -std=c11 -Wpedantic -I. 
 GCOV_FLAGS = -fprofile-arcs -ftest-coverage -g -O0
 
