@@ -1,31 +1,24 @@
 #include "s21_matrix.h"
 
-double s21_determinant_recursive(matrix_t *A) {
-  if (A->rows == 1) {
-    return A->matrix[0][0];
+double s21_recursiveDeterminant(matrix_t A) {
+  if (A.rows == 1) return A.matrix[0][0];
+  if (A.rows == 2)
+    return A.matrix[0][0] * A.matrix[1][1] - A.matrix[0][1] * A.matrix[1][0];
+
+  double res = 0;
+  for (int i = 0; i < A.columns; i++) {
+    matrix_t copy = s21_matrixCutCopy(A, 0, i);
+    res += pow(-1, i) * A.matrix[0][i] * s21_recursiveDeterminant(copy);
+    s21_remove_matrix(&copy);
   }
-  if (A->rows == 2) {
-    return A->matrix[0][0] * A->matrix[1][1] -
-           A->matrix[0][1] * A->matrix[1][0];
-  }
-  double det = 0.0;
-  for (int j = 0; j < A->columns; j++) {
-    matrix_t minor;
-    s21_create_matrix(A->rows - 1, A->columns - 1, &minor);
-    s21_remove_row_column(A, 0, j, &minor);
-    double minor_det = s21_determinant_recursive(&minor);
-    det += pow(-1, j) * A->matrix[0][j] * minor_det;
-    s21_remove_matrix(&minor);
-  }
-  return det;
+  return res;
 }
 
 int s21_determinant(matrix_t *A, double *result) {
-  if (A->rows != A->columns) {
-    return INCORRECT_MATRIX;
-  }
+  if (s21_isNotCorrect(*A)) return INCORRECT_MATRIX;
+  if (A->columns != A->rows) return CALCULATION_ERROR;
 
-  *result = s21_determinant_recursive(A);
+  *result = s21_recursiveDeterminant(*A);
 
   return OK;
 }
